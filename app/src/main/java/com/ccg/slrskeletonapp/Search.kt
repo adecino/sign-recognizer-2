@@ -58,6 +58,7 @@ class SignDataLocalStore : SignDataInterface  {
         map.put("Pie", SignData("pie.png", "asdf", "Pie"))
         map.put("Pig", SignData("pig.png", "asdf", "Pig"))
         map.put("Sun", SignData("sun.png", "asdf", "Sun"))
+        map.put("Yellow", SignData("sun.png", "asdf", "Yellow"))
     }
 
 
