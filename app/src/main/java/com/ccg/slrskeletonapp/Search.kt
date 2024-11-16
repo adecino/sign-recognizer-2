@@ -21,8 +21,6 @@ import coil.compose.rememberAsyncImagePainter
 import android.widget.Toast
 import android.content.Context
 import android.view.Gravity
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 
 class SignData(imagePath: String, videoPath: String, word: String) {
     var imagePath = "not_found.png";
