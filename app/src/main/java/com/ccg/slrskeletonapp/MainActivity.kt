@@ -128,6 +128,7 @@
     class MainActivity : ComponentActivity() {
 
         lateinit var SLREngine: SimpleExecutionEngine
+        var inputText by mutableStateOf("")
 
         private val currResult = MutableStateFlow (
             ImageMPResultWrapper(Empties.EMPTY_HANDMARKER_RESULTS, Empties.EMPTY_BITMAP)
@@ -161,6 +162,7 @@
                 runOnUiThread {
                     Toast.makeText(this, "Guessed: ${sign} ", Toast.LENGTH_SHORT).show()
                     // TODO: Add the guessed sign to the Search Input on this page and search for it.
+                    inputText = sign.replaceFirstChar { it.uppercase() }
                 }
             }
 
@@ -294,7 +296,6 @@
         @Composable
         fun SearchBar(navController: NavController) {
             val context = LocalContext.current
-            var inputText by remember { mutableStateOf("") }
 
             Spacer(modifier = Modifier.height(16.dp))
             Row(
