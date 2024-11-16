@@ -51,6 +51,7 @@
     import androidx.compose.ui.graphics.Color
     import androidx.compose.ui.platform.LocalContext
     import androidx.compose.ui.unit.dp
+    import androidx.compose.ui.unit.sp
     import androidx.navigation.compose.*
     import androidx.navigation.NavController
     import com.ccg.slrcore.common.Empties
@@ -159,6 +160,7 @@
             }) { sign ->
                 runOnUiThread {
                     Toast.makeText(this, "Guessed: ${sign} ", Toast.LENGTH_SHORT).show()
+                    // TODO: Add the guessed sign to the Search Input on this page and search for it.
                 }
             }
 
@@ -226,8 +228,11 @@
             }
 
             Scaffold (
-                // bottomBar = { BottomNavigationBar(navController) },
-                topBar = { SearchBar(navController) },
+                topBar = {
+                            if (!isCameraVisible) {
+                                SearchBar(navController)
+                            }
+                         },
                 modifier = Modifier
                     .fillMaxSize(),
                 floatingActionButton = {
@@ -235,7 +240,7 @@
                         onClick = {},
                         interactionSource = interaction
                     ) {
-                        Icon(Icons.Sharp.ThumbUp, "Sign Language Input")
+                        Text("Make a Sign", maxLines = 1, fontSize = 10.sp)
                     }
                 },
                 floatingActionButtonPosition = FabPosition.Center
@@ -271,12 +276,10 @@
                     NavHost(navController = navController, startDestination = "search") {
                         currentScreen.value = "Search"
                         composable("search") {
-                            Search(navController)
+                            if(!isCameraVisible) {
+                                Search(navController)
+                            }
                         }
-//                        composable("sign") {
-//                            currentScreen.value = "Sign"
-//                            Sign { navController.navigate("search") }
-//                        }
                         composable("result/{param}") {backStackEntry ->
                             currentScreen.value = "Result"
                             val param = backStackEntry.arguments?.getString("param")
@@ -316,43 +319,8 @@
                         navController.navigate("result/$param")
                     }
                 }) {
-                    Text("Search")
+                    Text("Search", maxLines = 1, fontSize = 10.sp)
                 }
             }
         }
-
-//        @Composable
-//        fun BottomNavigationBar(navController: NavController) {
-//            Box(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .height(56.dp)
-//                    .background(color = Color.Gray)
-//                    .padding(vertical = 8.dp),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                Row(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    horizontalArrangement = Arrangement.SpaceEvenly,
-//                    verticalAlignment = Alignment.CenterVertically
-//                ) {
-//                    Button(onClick = {
-//                        navController.navigate("search") {
-//                            popUpTo("search") { inclusive = true }
-//                            launchSingleTop = true
-//                        }
-//                    }) {
-//                        Text("Search")
-//                    }
-//                    Button(onClick = {
-//                        navController.navigate("sign") {
-//                            popUpTo("sign") { inclusive = true }
-//                            launchSingleTop = true
-//                        }
-//                    }) {
-//                        Text("Sign")
-//                    }
-//                }
-//            }
-//        }
     }
