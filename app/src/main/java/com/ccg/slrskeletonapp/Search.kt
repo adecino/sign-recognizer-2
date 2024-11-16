@@ -131,35 +131,6 @@ fun Search(navController: NavController) {
                 }
             }
         }
-
-//        var inputText by remember { mutableStateOf("") }
-//
-//        Spacer(modifier = Modifier.height(16.dp))
-//        Row(
-//            modifier = Modifier.fillMaxWidth(),
-//            horizontalArrangement = Arrangement.Center,
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            TextField(
-//                value = inputText,
-//                onValueChange = { inputText = it },
-//                placeholder = { Text("Search") }
-//            )
-//            Button(onClick = {
-//                val res = searchByText(inputText)
-//                if (res.word.isEmpty()) {
-//                    Toast.makeText(context, "Not found", Toast.LENGTH_LONG).apply {
-//                        setGravity(Gravity.CENTER, 0, 0)
-//                        show()
-//                    }
-//                } else {
-//                    val param = "${res.word}|${res.imagePath}|${res.videoPath}"
-//                    navController.navigate("result/$param")
-//                }
-//            }) {
-//                Text("Search")
-//            }
-//        }
     }
 }
 
