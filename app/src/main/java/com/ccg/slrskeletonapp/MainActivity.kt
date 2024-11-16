@@ -4,6 +4,7 @@
     import android.annotation.SuppressLint
     import android.os.Build
     import android.os.Bundle
+    import android.view.Gravity
     import android.view.Menu
     import android.view.MenuItem
     import android.widget.Toast
@@ -22,6 +23,7 @@
     import androidx.compose.foundation.layout.Row
     import androidx.compose.foundation.layout.width
     import androidx.compose.foundation.isSystemInDarkTheme
+    import androidx.compose.foundation.layout.Spacer
     import androidx.compose.material.icons.Icons
     import androidx.compose.material.icons.sharp.ThumbUp
     import androidx.compose.material3.Button
@@ -33,6 +35,7 @@
     import androidx.compose.material3.Surface
     import androidx.compose.material3.Text
     import androidx.compose.material3.MaterialTheme
+    import androidx.compose.material3.TextField
     import androidx.compose.material3.darkColorScheme
     import androidx.compose.material3.dynamicDarkColorScheme
     import androidx.compose.material3.dynamicLightColorScheme
@@ -42,6 +45,7 @@
     import androidx.compose.runtime.getValue
     import androidx.compose.runtime.mutableStateOf
     import androidx.compose.runtime.remember
+    import androidx.compose.runtime.setValue
     import androidx.compose.ui.Alignment
     import androidx.compose.ui.Modifier
     import androidx.compose.ui.graphics.Color
@@ -222,7 +226,8 @@
             }
 
             Scaffold (
-                bottomBar = { BottomNavigationBar(navController) },
+                // bottomBar = { BottomNavigationBar(navController) },
+                topBar = { SearchBar(navController) },
                 modifier = Modifier
                     .fillMaxSize(),
                 floatingActionButton = {
@@ -268,10 +273,10 @@
                         composable("search") {
                             Search(navController)
                         }
-                        composable("sign") {
-                            currentScreen.value = "Sign"
-                            Sign { navController.navigate("search") }
-                        }
+//                        composable("sign") {
+//                            currentScreen.value = "Sign"
+//                            Sign { navController.navigate("search") }
+//                        }
                         composable("result/{param}") {backStackEntry ->
                             currentScreen.value = "Result"
                             val param = backStackEntry.arguments?.getString("param")
@@ -284,37 +289,70 @@
         }
 
         @Composable
-        fun BottomNavigationBar(navController: NavController) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .background(color = Color.Gray)
-                    .padding(vertical = 8.dp),
-                contentAlignment = Alignment.Center
+        fun SearchBar(navController: NavController) {
+            val context = LocalContext.current
+            var inputText by remember { mutableStateOf("") }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Button(onClick = {
-                        navController.navigate("search") {
-                            popUpTo("search") { inclusive = true }
-                            launchSingleTop = true
+                TextField(
+                    value = inputText,
+                    onValueChange = { inputText = it },
+                    placeholder = { Text("Search") }
+                )
+                Button(onClick = {
+                    val res = searchByText(inputText)
+                    if (res.word.isEmpty()) {
+                        Toast.makeText(context, "Not found", Toast.LENGTH_LONG).apply {
+                            setGravity(Gravity.CENTER, 0, 0)
+                            show()
                         }
-                    }) {
-                        Text("Search")
+                    } else {
+                        val param = "${res.word}|${res.imagePath}|${res.videoPath}"
+                        navController.navigate("result/$param")
                     }
-                    Button(onClick = {
-                        navController.navigate("sign") {
-                            popUpTo("sign") { inclusive = true }
-                            launchSingleTop = true
-                        }
-                    }) {
-                        Text("Sign")
-                    }
+                }) {
+                    Text("Search")
                 }
             }
         }
+
+//        @Composable
+//        fun BottomNavigationBar(navController: NavController) {
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(56.dp)
+//                    .background(color = Color.Gray)
+//                    .padding(vertical = 8.dp),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Row(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    horizontalArrangement = Arrangement.SpaceEvenly,
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//                    Button(onClick = {
+//                        navController.navigate("search") {
+//                            popUpTo("search") { inclusive = true }
+//                            launchSingleTop = true
+//                        }
+//                    }) {
+//                        Text("Search")
+//                    }
+//                    Button(onClick = {
+//                        navController.navigate("sign") {
+//                            popUpTo("sign") { inclusive = true }
+//                            launchSingleTop = true
+//                        }
+//                    }) {
+//                        Text("Sign")
+//                    }
+//                }
+//            }
+//        }
     }
