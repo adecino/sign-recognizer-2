@@ -21,6 +21,7 @@ import coil.compose.rememberAsyncImagePainter
 import android.widget.Toast
 import android.content.Context
 import android.view.Gravity
+import androidx.compose.ui.input.nestedscroll.nestedScrollModifierNode
 
 class SignData(imagePath: String, videoPath: String, word: String) {
     var imagePath = "not_found.png";
@@ -39,29 +40,24 @@ class SignDataLocalStore : SignDataInterface  {
     init {
         map.put("Hello", SignData("HelloSign.png", "asdf", "Hello"))
         map.put("Thank You", SignData("ThankYouSign.png", "asdf", "Thank You"))
-        map.put("I", SignData("asdf", "asdf", "I"))
-        map.put("Me", SignData("asdf", "asdf", "Me"))
-        map.put("You", SignData("asdf", "asdf", "You"))
-        map.put("He", SignData("asdf", "asdf", "He"))
-        map.put("She", SignData("asdf", "asdf", "She"))
-        map.put("We", SignData("asdf", "asdf", "We"))
-        map.put("Us", SignData("asdf", "asdf", "Us"))
-        map.put("It", SignData("asdf", "asdf", "It"))
-        map.put("In", SignData("asdf", "asdf", "In"))
-        map.put("On", SignData("asdf", "asdf", "On"))
-        map.put("To", SignData("asdf", "asdf", "To"))
-        map.put("At", SignData("asdf", "asdf", "At"))
-        map.put("Be", SignData("asdf", "asdf", "Be"))
-        map.put("My", SignData("asdf", "asdf", "My"))
-        map.put("Up", SignData("asdf", "asdf", "Up"))
-        map.put("Go", SignData("asdf", "asdf", "Go"))
-        map.put("Am", SignData("asdf", "asdf", "Am"))
-        map.put("Do", SignData("asdf", "asdf", "Do"))
-        map.put("Is", SignData("asdf", "asdf", "Is"))
-        map.put("So", SignData("asdf", "asdf", "So"))
-        map.put("If", SignData("asdf", "asdf", "If"))
-        map.put("As", SignData("asdf", "asdf", "As"))
-        map.put("An", SignData("asdf", "asdf", "An"))
+        map.put("Dog", SignData("dog.png", "asdf", "Dog"))
+        map.put("Arm", SignData("arm.png", "asdf", "Arm"))
+        map.put("Bus", SignData("bus.png", "asdf", "Bus"))
+        map.put("Car", SignData("car.png", "asdf", "Car"))
+        map.put("Cat", SignData("cat.png", "asdf", "Cat"))
+        map.put("Dog", SignData("dog.png", "asdf", "Dog"))
+        map.put("Egg", SignData("egg.png", "asdf", "Egg"))
+        map.put("Hat", SignData("hat.png", "asdf", "Hat"))
+        map.put("Jet", SignData("jet.png", "asdf", "Jet"))
+        map.put("Keg", SignData("keg.png", "asdf", "Keg"))
+        map.put("Kid", SignData("kid.png", "asdf", "Kid"))
+        map.put("Man", SignData("man.png", "asdf", "Man"))
+        map.put("Nut", SignData("nut.png", "asdf", "Nut"))
+        map.put("Paw", SignData("paw.png", "asdf", "Paw"))
+        map.put("Pen", SignData("pen.png", "asdf", "Pen"))
+        map.put("Pie", SignData("pie.png", "asdf", "Pie"))
+        map.put("Pig", SignData("pig.png", "asdf", "Pig"))
+        map.put("Sun", SignData("sun.png", "asdf", "Sun"))
     }
 
 
@@ -118,7 +114,9 @@ fun Search(navController: NavController) {
         if (isLoading) {
             Text("Loading...")
         } else {
+
             LazyVerticalGrid(
+                userScrollEnabled = true,
                 columns = GridCells.Fixed(2),
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(8.dp),
